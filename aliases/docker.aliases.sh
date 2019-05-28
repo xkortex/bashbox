@@ -9,5 +9,4 @@ alias docd="docker-compose down"
 
 in_container() {
     cat /proc/1/cgroup | grep docker
-
 }

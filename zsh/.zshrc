@@ -5,6 +5,9 @@ export HISTFILE=$ZDOTDIR/.zsh_history
 export HISTSIZE=1000000
 export SAVEHIST=1000000
 
+# allow proper terminal colors
+export TERM=xterm-256color
+
 # Path to your oh-my-zsh installation.
 export ZSH=/home/$USER/.oh-my-zsh
 
@@ -60,7 +63,7 @@ ZSH_CUSTOM=$ZSH/custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions)
 
 # User configuration
 
