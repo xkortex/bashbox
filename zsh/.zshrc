@@ -121,7 +121,7 @@ fi
 
 # Load all custom aliases
 
-. $HOME/.bash_aliases
+. $HOME/.zsh_aliases
 
 
 #end
