@@ -81,16 +81,19 @@ fi
 # zsh plugins
 mkdir -p ${ZSH_CUSTOM}/plugins/
 mkdir -p ${ZDOTDIR}
-git clone https://github.com/larkery/zsh-histdb ${ZSH_CUSTOM}/plugins/zsh-histdb
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
-
+if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-histdb ]]; then
+    git clone https://github.com/larkery/zsh-histdb ${ZSH_CUSTOM}/plugins/zsh-histdb
+fi
+if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+fi 
 # === === === === === === === Linking === === === === === === === ===
 
 # todo: prevent flattening
 ln -sf ${BASHBOX}/zsh/.zshenv ${HOME}/.zshenv
 ln -sf ${BASHBOX}/zsh/.zshenv ${ZDOTDIR}/.zshenv
 ln -sf ${BASHBOX}/zsh/.zshrc ${ZDOTDIR}/.zshrc
-ln -sf ${BASHBOX}/aliases/aliases.sh ${ZDOTDIR}/.zsh_aliases
+ln -sf ${BASHBOX}/aliases/aliases.sh ${HOME}/.zsh_aliases
 
 
 # === === === === === === === Cleanup === === === === === === === ===
