@@ -56,11 +56,10 @@ ln -sf ${BASHBOX}/environ/xdg-paths.sh ~/.xdg-paths.sh
 . ${HOME}/.xdg-paths.sh
 . ${BASHBOX}/bootstrap-env.sh
 
-echo "ZDOTDIR:    ${ZDOTDIR}"
-echo "ZSH:        ${ZSH}"
-echo "ZSH_CUSTOM: ${ZSH_CUSTOM}"
-echo "BASHBOX:    ${BASHBOX}"
-
+#echo "ZDOTDIR:    ${ZDOTDIR}"
+#echo "ZSH:        ${ZSH}"
+#echo "ZSH_CUSTOM: ${ZSH_CUSTOM}"
+#echo "BASHBOX:    ${BASHBOX}"
 
 #exit 0
 # Install oh my zsh
@@ -101,13 +100,6 @@ if [[ -n ${IN_CONTAINER} ]]; then
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 fi
-
-
-echo "ZDOTDIR:    ${ZDOTDIR}"
-echo "ZSH:        ${ZSH}"
-echo "ZSH_CUSTOM: ${ZSH_CUSTOM}"
-echo "BASHBOX:    ${BASHBOX}"
-head ${ZDOTDIR}/.zshrc
 
 echo -e "\e[42mBashbox install complete!\e[0m"
 

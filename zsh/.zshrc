@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 # == === == .zshrc powered by xkortex/bashbox ! == === ==
 
-    echo -e "\e[32mDEBUG: zshrc\e[0m"
-    echo "ZDOTDIR:    ${ZDOTDIR}"
-    echo "ZSH:        ${ZSH}"
-    echo "ZSH_CUSTOM: ${ZSH_CUSTOM}"
-    echo "BASHBOX:    ${BASHBOX}"
+#echo -e "\e[32mDEBUG: zshrc\e[0m"
 # path stuff
 # == === == bootstrap XDG/bashbox path variables == === ==
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:=$HOME/.config}"

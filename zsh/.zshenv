@@ -1,4 +1,4 @@
-echo -e "\e[35mDEBUG: zshENV\e[0m"
+#echo -e "\e[35mDEBUG: zshENV\e[0m"
 
 # == === == bootstrap XDG path variables == === ==
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:=$HOME/.config}"
