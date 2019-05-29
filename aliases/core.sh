@@ -7,7 +7,7 @@ alias e="echo"
 alias h="history -i | grep -Pv '^ *[0-9]+  [[:digit:]\:\- ]{16}  h '| grep "
 alias hosts="cat /etc/hosts"
 alias rs="readlink -f"
-alias wat="hostname && whoami"
+alias wat="hostname && id -un"
 
 errcho() {
     (>&2 echo -e "\e[31m$1\e[0m")

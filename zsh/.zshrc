@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
+#echo -e "\e[32mDEBUG: zshrc\e[0m"
 # == === == .zshrc powered by xkortex/bashbox ! == === ==
 
-#echo -e "\e[32mDEBUG: zshrc\e[0m"
 # path stuff
 # == === == bootstrap XDG/bashbox path variables == === ==
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:=$HOME/.config}"
@@ -28,10 +28,6 @@ export TERM=xterm-256color
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 ZSH_THEME="robbyrussell"
-
-# zsh completion
-fpath=(~/.zsh/completion $fpath)
-autoload -Uz compinit && compinit -i
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -74,7 +70,7 @@ autoload -Uz compinit && compinit -i
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions)
+plugins=(git zsh-autosuggestions docker docker-compose)
 
 # User configuration
 
