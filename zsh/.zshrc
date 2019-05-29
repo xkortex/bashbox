@@ -1,6 +1,23 @@
 #!/usr/bin/env bash
+# == === == .zshrc powered by xkortex/bashbox ! == === ==
+
+    echo -e "\e[32mDEBUG: zshrc\e[0m"
+    echo "ZDOTDIR:    ${ZDOTDIR}"
+    echo "ZSH:        ${ZSH}"
+    echo "ZSH_CUSTOM: ${ZSH_CUSTOM}"
+    echo "BASHBOX:    ${BASHBOX}"
 # path stuff
-ZDOTDIR=$HOME/mybox/zsh
+# == === == bootstrap XDG/bashbox path variables == === ==
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:=$HOME/.config}"
+. "${XDG_CONFIG_HOME}/bashbox/environ/bashbox-paths.sh"
+# == === ==         end path setup               == === ==
+
+ZDOTDIR="${XDG_DATA_HOME}/zsh"
+# Path to your oh-my-zsh installation.
+ZSH="${ZSH:=$HOME/.oh-my-zsh}"
+# Would you like to use another custom folder than $ZSH/custom?
+#ZSH_CUSTOM="${ZSH_CUSTOM:=${ZSH}/custom"
+
 export HISTFILE=$ZDOTDIR/.zsh_history
 export HISTSIZE=1000000
 export SAVEHIST=1000000
@@ -8,8 +25,7 @@ export SAVEHIST=1000000
 # allow proper terminal colors
 export TERM=xterm-256color
 
-# Path to your oh-my-zsh installation.
-export ZSH=/home/$USER/.oh-my-zsh
+
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -56,8 +72,7 @@ autoload -Uz compinit && compinit -i
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM=$ZSH/custom
+
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/

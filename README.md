@@ -1,7 +1,13 @@
 # bashbox
 bash/shell/CLI toolkit
 
-# Goals
+## Installation
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xkortex/bashbox/master/uber-setup.sh)"
+```
+
+
+## Goals
 The purpose of this library is to facilitate liquid - moving seamlessly between
 systems/containers and having a consistent experience across hosts. This involves:
 - Tools (shell, aliases, scripts)
@@ -19,3 +25,10 @@ Install all the tools that I like.
 ## exo-history
 A virtual exo-cortex - brain dump of ALL commands ever executed 
 (sans sensitive ones). 
+
+## Path information dependency graph
+(variable default blurb) <- xdg
+xdg <- bashbox-paths
+xdg <- .zshenv
+bashbox-paths <- aliases
+bashbox-paths <- .zshrc
