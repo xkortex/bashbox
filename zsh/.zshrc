@@ -108,7 +108,7 @@ fi
 ## virtualenvwrapper
 if [[ -e $HOME/.virtualenvs ]]; then
     export WORKON_HOME=$HOME/.virtualenvs
-    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+    source $HOME/.local/bin/virtualenvwrapper.sh
 fi
 
 # Load all custom aliases

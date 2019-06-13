@@ -93,6 +93,7 @@ ln -sf ${BASHBOX}/zsh/.zshenv ${HOME}/.zshenv
 ln -sf ${BASHBOX}/zsh/.zshenv ${ZDOTDIR}/.zshenv
 ln -sf ${BASHBOX}/zsh/.zshrc ${ZDOTDIR}/.zshrc
 ln -sf ${BASHBOX}/aliases/aliases.sh ${HOME}/.zsh_aliases
+#ln -sf ${BASHBOX}/tmux/.tmux.conf ${HOME}/.tmux.conf
 
 
 # === === === === === === === Cleanup === === === === === === === ===

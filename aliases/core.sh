@@ -14,8 +14,10 @@ errcho() {
 }
 
 to () {
-    cd "${1}" || exit
-    ls --color=tty
+    cd "${1}" && success=true || echo "pwd: $PWD"
+    if [[ -n $success ]]; then
+        ls --color=tty
+    fi
 }
 
 f () {
