@@ -14,10 +14,17 @@ errcho() {
 }
 
 to () {
-    cd "${1}" && success=true || echo "pwd: $PWD"
-    if [[ -n $success ]]; then
-        ls --color=tty
+    if [[ ! -e "${1}" ]]; then
+        errcho "File/dir does not exist: ${1}"
     fi
+
+    if [[ -d "${1}" ]]; then
+        cd "${1}"
+        ls --color=tty
+    else
+        cd "$(dirname ${1})"
+    fi
+
 }
 
 f () {

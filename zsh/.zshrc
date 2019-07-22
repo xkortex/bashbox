@@ -111,9 +111,14 @@ if [[ -e $HOME/.virtualenvs ]]; then
     source $HOME/.local/bin/virtualenvwrapper.sh
 fi
 
+## custom plugins
+# todo: make this an import
+[[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
+
 # Load all custom aliases
 
 . $HOME/.zsh_aliases
+
 
 
 #end
