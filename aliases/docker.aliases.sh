@@ -62,3 +62,19 @@ gosh() {
         docker exec -it -e "DISPLAY" -e "QT_X11_NO_MITSHM=1" ${DOCKNAME} ${ENTRYPOINT}
 }
 
+dlast() {
+# Get last container ID
+docker ps -a --format "{{.ID}}" | head -1
+
+}
+
+dlastsh() {
+# Get last container ID and jump into it
+    DCMD=${1:-bash}
+    LAST_ID=$(docker ps -a --format "{{.ID}}" | head -1)
+    TMP_NAME="$(docker ps -a --format "{{.Names}}" | head -1)_tmp"
+    # report to user
+    docker ps -a --format "{{.ID}} {{.Image}} {{.Status}}" | head -1
+    docker commit ${LAST_ID} ${TMP_NAME}
+    docker run -ti --rm ${TMP_NAME} ${DCMD}
+}

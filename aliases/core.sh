@@ -6,6 +6,8 @@ alias ..="cd .."
 alias e="echo"
 alias h="history -i | grep -Pv '^ *[0-9]+  [[:digit:]\:\- ]{16}  h '| grep "
 alias hosts="cat /etc/hosts"
+alias p="ping -c 1"
+alias reso="cat /etc/resolv.conf"
 alias rs="readlink -f"
 alias wat="hostname && id -un"
 

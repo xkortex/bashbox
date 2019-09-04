@@ -15,8 +15,8 @@ ZSH="${ZSH:=$HOME/.oh-my-zsh}"
 #ZSH_CUSTOM="${ZSH_CUSTOM:=${ZSH}/custom"
 
 export HISTFILE=$ZDOTDIR/.zsh_history
-export HISTSIZE=1000000
-export SAVEHIST=1000000
+export HISTSIZE=50000
+export SAVEHIST=10000
 
 # allow proper terminal colors
 export TERM=xterm-256color

@@ -9,4 +9,3 @@ alias ggraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bol
 t)%C(bold yellow)%d%C(reset)' --all"
 alias pls="git pull"
 alias plsub="git pull --recurse-submodules && git submodule update --init --recursive"
-alias p="ping -c 1"
