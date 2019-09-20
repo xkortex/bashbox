@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 alias ga.="git add . && git status"
-alias gp="git push"
 alias gcm="git commit -m"
 alias gpuom="git push -u origin master"
 alias gacam="git add . && git commit -m"

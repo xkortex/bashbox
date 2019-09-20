@@ -119,6 +119,7 @@ fi
 
 . $HOME/.zsh_aliases
 
-
+eval $(thefuck --alias)
+eval $(thefuck --alias the)
 
 #end
