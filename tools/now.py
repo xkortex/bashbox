@@ -7,6 +7,7 @@ TIME_FMT = "%Y-%m-%d %H:%M:%S.%f"
 BLOCK = "█"
 # BLOCKS = "▁▂▃▄▅▆▇█"
 
+CURSOR_RESET = '\033[0;0H'
 RULER_LEN = 100
 RULE_B = "├"
 RULE_M1 = "┴"
@@ -46,15 +47,17 @@ def main(ruler=False):
     i = 0
     last = datetime.datetime.now()
     while True:
+        print(CURSOR_RESET, end='', flush=True)
         now = datetime.datetime.now()
         delta_t = (now - last).microseconds
 
+
+        s_i = "{:>10} ".format(i)
+        fft = fancy_format_time(now, delta_t)
+        print(s_i + fft, flush=True, end="")
         if ruler:
-            print(fancy_format_bar(now), flush=True, end="\r")
-        else:
-            s_i = "{:>10} ".format(i)
-            fft = fancy_format_time(now, delta_t)
-            print(s_i + fft, flush=True, end="\r")
+            print('\n' + fancy_format_bar(now), flush=True, end="")
+
         last = now
         i += 1
         if i > 1e6:
