@@ -99,8 +99,8 @@ export LC_TIME=en_GB.UTF-8
 
 
 ## histdb
-if [[ -e $HOME/.oh-my-zsh/custom/plugins/zsh-histdb/ ]]; then
-    source $HOME/.oh-my-zsh/custom/plugins/zsh-histdb/sqlite-history.zsh
+if [[ -e $ZSH/custom/plugins/zsh-histdb/ ]]; then
+    source $ZSH/custom/plugins/zsh-histdb/sqlite-history.zsh
     autoload -Uz add-zsh-hook
     add-zsh-hook precmd histdb-update-outcome
 fi
@@ -119,7 +119,7 @@ fi
 
 . $HOME/.zsh_aliases
 
-eval $(thefuck --alias)
-eval $(thefuck --alias the)
+#eval $(thefuck --alias)
+#eval $(thefuck --alias the)
 
 #end

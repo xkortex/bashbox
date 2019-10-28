@@ -34,9 +34,9 @@ fi
 
 # === === === === === === === install stuff === === === === === === === ===
 
-# install zsh
+# install zsh, sqlite for histdb
 if [[ -z ${USERMODE} ]]; then
-    sudo apt-get install -y zsh git
+    sudo apt-get install -y zsh git sqlite3
 fi
 
 # pull down this repo
@@ -94,6 +94,8 @@ ln -sf ${BASHBOX}/zsh/.zshenv ${ZDOTDIR}/.zshenv
 ln -sf ${BASHBOX}/zsh/.zshrc ${ZDOTDIR}/.zshrc
 ln -sf ${BASHBOX}/aliases/aliases.sh ${HOME}/.zsh_aliases
 #ln -sf ${BASHBOX}/tmux/.tmux.conf ${HOME}/.tmux.conf
+
+# todo: install virtualenvwrapper.
 
 
 # === === === === === === === Cleanup === === === === === === === ===
