@@ -8,6 +8,29 @@ alias updoc="docker-compose up -d"
 alias docd="docker-compose down"
 alias dstat='docker stats $1 --no-stream --format "{\"container\":\"{{ .Name }}\",\"memory\":{\"raw\":\"{{ .MemUsage }}\",\"percent\":\"{{ .MemPerc }}\"},\"cpu\":\"{{ .CPUPerc }}\"}"'
 
+errcho() {
+    if [[ -z ${ERR_QUIET} ]]; then
+        (>&2 echo -e "\e[31m$1\e[0m")
+    fi
+}
+
+vprint2() {
+# Verbose print on stderr
+    if [[ -n ${VERBOSE} ]]; then
+        (>&2 echo -e "\e[33m$1\e[0m")
+    fi
+}
+
+_printfred() {
+    (printf "\e[31m$@\e[0m")
+}
+_printfyel() {
+    (printf "\e[33m$@\e[0m")
+}
+_printfblue() {
+    (printf "\e[34m$@\e[0m")
+}
+
 isint() {
     re='^[0-9]+$'
     if  [[ $1 =~ $re ]] ; then
@@ -21,7 +44,51 @@ in_container() {
 
 dg() {
 # docker grep for name
-        docker ps | grep ${1} | awk '{ print $1 }'
+    if [[ ${1:0:1} == "-" ]] ; then
+        _ALL=
+        FLAG=
+        VERBOSE=
+        ERR_QUIET=
+        _ARG="${2}"
+        if [[ "${1}" == *"v"* ]]; then
+           _printfyel "Verbose\n"
+           VERBOSE=true
+        fi
+        if [[ "${1}" == *"a"* ]]; then
+            _ALL="-a"
+        fi
+        if [[ "${1}" == *"q"* ]]; then
+            ERR_QUIET=true
+        fi
+    else
+        _ARG="${1}"
+    fi
+    if [[ -n ${_ALL} ]]; then
+        IMG_LIST=$(docker ps -a)
+    else
+        IMG_LIST=$(docker ps)
+    fi
+    if [[ -n ${IMG_LIST} ]]; then
+        vprint2 "${IMG_LIST}"
+        IMG_LIST=$(echo ${IMG_LIST} | grep ${_ARG})
+    fi
+
+    if [[ -z ${IMG_LIST} ]]; then
+        errcho "No image names match grep "
+    elif [[ $(echo ${IMG_LIST}  | wc -l) != '1' ]]; then
+        errcho "Warning: More than one image matches, ambiguous"
+        if [[ -n ${DG_SAFE} ]]; then
+            return 1
+        fi
+        DOIT=true
+    else
+        DOIT=true
+
+    fi
+
+    if [[ -n $DOIT ]]; then
+        echo ${IMG_LIST} | awk '{ print $1 }'
+    fi
 }
 
 dn() {
@@ -44,7 +111,19 @@ dlc() {
 }
 
 dosh() {
-    NAME=$(dlc ${1})
+    _ARG="${1}"
+    NAME=$(dg ${_ARG})
+    if [[ -z ${NAME} ]]; then
+        ALL_IMGS=$(dg -aq ${_ARG})
+        if [[ -n ${ALL_IMGS} ]]; then
+            _printfblue "These containers match but have died: \n${ALL_IMGS}\n"
+        else
+            _printfred "No name found/specified, "
+        fi
+        errcho "cannot docker exec"
+        return 1
+    fi
+
     echo "starting ${NAME}"
     DOCKNUM=${1:-1}
     ENTRYPOINT=${2:-bash}
