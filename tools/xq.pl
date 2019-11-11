@@ -21,19 +21,26 @@ sub jq_on_string {
 }
 
 sub yq_on_string {
-    # Run jq on a string passed to this function
+    # Run jq on a string passed to this function via yq
     # First argument is the string
-    # Second argument is args passed to jq
+    # Second argument is args passed to yq then jq
 
     my $exit_code = system("echo '$_[0]' | yq read -j - | jq $_[1]");
+    exit($exit_code >> 8);
+}
+sub yq_on_file {
+    # Run jq on a string passed to this function via yq
+    # First argument is the filename
+    # Second argument is args passed to yq then jq
+
+    my $exit_code = system("yq read -j $_[0] | jq $_[1]");
     exit($exit_code >> 8);
 }
 
 if (-t STDIN) {
     # we're running from a shell, without input being piped to us. send file right to processor
-    my $filename = $ARGV[-1];
+    my $filename = $ARGV[-1]; # todo: combine with pop operation
     my ($ext) = $filename =~ /(\.[^.]+)$/;
-    print "Filename: $filename Ext: [$ext]\n";
 
     # handle basic json query and exit early
     if ($ext eq '.json') {
@@ -44,11 +51,11 @@ if (-t STDIN) {
         exit($exit_code >> 8);
     }
 
+    pop(@ARGV);
+    my $argstr = join(" ", @ARGV);
+    yq_on_file($filename, $argstr);
 
-
-
-}
-else {
+} else {
     ## leaving some breadcrumbs for future self:
     #    print "[pipe]\n";
     my $stdin = join("", <STDIN>);
@@ -56,7 +63,7 @@ else {
     #	print "[$stdin]";
     #	print "---___---\n";
     # Can't really infer from a file stream easily, so just throw yq at it
-    # This is still quite performant, runs a query in about 20 ms 
+    # This is still quite performant, runs a query in about 20 ms
     yq_on_string($stdin, $argstr);
     # my $exit_code = system("echo '$stdin' | jq @ARGV");
 
