@@ -15,6 +15,13 @@ errcho() {
     (>&2 echo -e "\e[31m$1\e[0m")
 }
 
+vprint2() {
+# Verbose print on stderr
+    if [[ -n ${VERBOSE} ]]; then
+        (>&2 echo -e "\e[33m$1\e[0m")
+    fi
+}
+
 to () {
     if [[ ! -e "${1}" ]]; then
         errcho "File/dir does not exist: ${1}"

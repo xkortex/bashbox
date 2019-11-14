@@ -156,5 +156,5 @@ dlastsh() {
     docker ps -a --format "{{.ID}} {{.Image}} {{.Status}}" | head -1
     docker commit ${LAST_ID} ${TMP_NAME}
     echo ">>> docker run -ti --rm $@ ${TMP_NAME} ${DCMD}"
-    docker run -ti --rm $@ ${TMP_NAME} ${DCMD}
+    docker run -ti --rm --network=host $@ ${TMP_NAME} ${DCMD}
 }
