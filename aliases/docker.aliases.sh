@@ -158,3 +158,34 @@ dlastsh() {
     echo ">>> docker run -ti --rm $@ ${TMP_NAME} ${DCMD}"
     docker run -ti --rm --network=host $@ ${TMP_NAME} ${DCMD}
 }
+
+dcleanup(){
+    docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
+    docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
+}
+
+dretag(){
+  # $1 is initial URI, $2 is new tag
+  if [[ -z "${1}" || -z "${2}" ]]; then
+    echo "must provide url and tag arguments"
+    return
+  fi
+
+  NEWTAG=`python -c "print('${1}'.split(':')[0]+':${2}')"`
+  echo "\`docker tag ${1} ${NEWTAG}\`";
+  echo " > Tag and push the following tag?"
+  echo "${NEWTAG}"
+  read yn
+    case $yn in
+        [Yy]* )  docker tag "${1}" "${NEWTAG}" ;;
+        [Nn]* ) return;;
+        * ) echo "Aborted" ;;
+    esac
+  echo "\`docker push ${NEWTAG}\`";
+  echo " > Do you wish to push this tag to remote?"
+  read yn
+    case $yn in
+        [Yy]* )  docker push "${NEWTAG}" ;;
+        * ) echo "Aborted";;
+    esac
+}

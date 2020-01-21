@@ -39,6 +39,9 @@ to () {
 f () {
     find . -iname '*'${1}'*' 2> /dev/null
 }
+fud () {
+    find . -type d -iname '*'${1}'*' 2> /dev/null
+}
 
 hist() {
     history | tail -"${1}"
