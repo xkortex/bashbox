@@ -108,7 +108,8 @@ fi
 ## virtualenvwrapper
 if [[ -e $HOME/.virtualenvs ]]; then
     export WORKON_HOME=$HOME/.virtualenvs
-    source $HOME/.local/bin/virtualenvwrapper.sh
+    export PROJECT_HOME=$HOME/wk/src/venvprojects
+    source /usr/local/bin/virtualenvwrapper.sh
 fi
 
 ## custom plugins

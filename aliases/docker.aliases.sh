@@ -6,7 +6,6 @@ alias dps="docker-pretty-ps 2>/dev/null || docker ps"
 alias dna="docker network ls"
 alias updoc="docker-compose up -d"
 alias docd="docker-compose down"
-alias dstat='docker stats $1 --no-stream --format "{\"container\":\"{{ .Name }}\",\"memory\":{\"raw\":\"{{ .MemUsage }}\",\"percent\":\"{{ .MemPerc }}\"},\"cpu\":\"{{ .CPUPerc }}\"}"'
 
 errcho() {
     if [[ -z ${ERR_QUIET} ]]; then
@@ -40,6 +39,10 @@ isint() {
 
 in_container() {
     cat /proc/1/cgroup | grep docker
+}
+
+dstat() {
+  docker stats $1 --no-stream --format "{\"container\":\"{{ .Name }}\",\"memory\":{\"raw\":\"{{ .MemUsage }}\",\"percent\":\"{{ .MemPerc }}\"},\"cpu\":\"{{ .CPUPerc }}\"}"
 }
 
 dg() {
