@@ -22,27 +22,18 @@ OS_NAME=`uname -s | tr '[:upper:]' '[:lower:]'`
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:=$HOME/.config}"
 XDG_DATA_HOME="${XDG_DATA_HOME:=$HOME/.local/share}"
 
-if [[ $OS_NAME != 'linux' ]]; then
-  echo "Error: this script is for linux only!"
+if [[ $OS_NAME != 'darwin' ]]; then
+  echo "Error: this script is for mac only!"
   exit 1
 fi
 # == === ==         end XDG              == === ==
 export BASHBOX="${XDG_CONFIG_HOME}/bashbox"
 
-# Determine if we are running in a container - this affects certain assumptions
-if [[ -n $(cat /proc/1/cgroup | grep docker) ]]; then
-    export IN_CONTAINER=true
-fi
-
-if [[ -n ${IN_CONTAINER} ]]; then
-    apt-get update -qq && apt-get install -y sudo
-fi
-
 # === === === === === === === install stuff === === === === === === === ===
 
 # install zsh, sqlite for histdb
 if [[ -z ${USERMODE} ]]; then
-    sudo apt-get install -y zsh git sqlite3
+    brew install zsh git sqlite
 fi
 
 # pull down this repo
@@ -95,20 +86,16 @@ fi
 # === === === === === === === Linking === === === === === === === ===
 
 # todo: prevent flattening
-ln -sf ${BASHBOX}/zsh/.zshenv ${HOME}/.zshenv
-ln -sf ${BASHBOX}/zsh/.zshenv ${ZDOTDIR}/.zshenv
-ln -sf ${BASHBOX}/zsh/.zshrc ${ZDOTDIR}/.zshrc
-ln -sf ${BASHBOX}/aliases/aliases.sh ${HOME}/.zsh_aliases
-#ln -sf ${BASHBOX}/tmux/.tmux.conf ${HOME}/.tmux.conf
+ln -svf ${BASHBOX}/zsh/.zshenv ${HOME}/.zshenv
+ln -svf ${BASHBOX}/zsh/.zshenv ${ZDOTDIR}/.zshenv
+ln -svf ${BASHBOX}/zsh/.zshrc ${ZDOTDIR}/.zshrc
+ln -svf ${BASHBOX}/aliases/aliases.sh ${HOME}/.zsh_aliases
+ln -svf ${BASHBOX}/tmux/.tmux.conf ${HOME}/.tmux.conf
 
 # todo: install virtualenvwrapper.
 
 
 # === === === === === === === Cleanup === === === === === === === ===
-if [[ -n ${IN_CONTAINER} ]]; then
-    apt-get clean
-    rm -rf /var/lib/apt/lists/*
-fi
 
 echo -e "\e[42mBashbox install complete!\e[0m"
 
