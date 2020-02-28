@@ -11,8 +11,11 @@ ZDOTDIR="${XDG_DATA_HOME}/zsh"
 ZSH="${XDG_CONFIG_HOME}/oh-my-zsh"
 ZSH_CUSTOM=$ZSH/custom
 
+PATH="${HOME}/.local/bin:${PATH}"
+
 export ZDOTDIR
 export ZSH
 export ZSH_CUSTOM
+export PATH
 
 
