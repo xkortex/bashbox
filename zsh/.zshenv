@@ -17,5 +17,6 @@ export ZDOTDIR
 export ZSH
 export ZSH_CUSTOM
 export PATH
-
+export XDG_DATA_HOME
+export XDG_CONFIG_HOME
 

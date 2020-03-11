@@ -74,9 +74,9 @@ plugins=(git zsh-autosuggestions docker docker-compose)
 
 # User configuration
 
-## go
-export GOPATH=$HOME/go
-export PATH=${PATH:+${PATH}:}/usr/local/go/bin
+## go and rust
+export GOPATH=$HOME/ao
+export PATH=${PATH:+${PATH}:}/usr/local/go/bin:$HOME/.cargo/bin
 
 export TRASHPATH="/home/$USER/.local/share/Trash/files"
 
