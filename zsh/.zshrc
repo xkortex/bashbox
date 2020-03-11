@@ -74,9 +74,9 @@ plugins=(git zsh-autosuggestions docker docker-compose)
 
 # User configuration
 
-## go
-export GOPATH=$HOME/go
-export PATH=${PATH:+${PATH}:}/usr/local/go/bin
+## go and rust
+export GOPATH=$HOME/ao
+export PATH=${PATH:+${PATH}:}/usr/local/go/bin:$HOME/.cargo/bin
 
 export TRASHPATH="/home/$USER/.local/share/Trash/files"
 
@@ -107,7 +107,8 @@ fi
 
 ## virtualenvwrapper
 if [[ -e $HOME/.virtualenvs ]]; then
-    export WORKON_HOME=$HOME/.virtualenvs
+    export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+    export WORKON_HOME=$HOME/.venvs
     export PROJECT_HOME=$HOME/wk/src/venvprojects
     source /usr/local/bin/virtualenvwrapper.sh
 fi
