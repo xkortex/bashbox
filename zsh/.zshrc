@@ -123,4 +123,12 @@ fi
 #eval $(thefuck --alias)
 #eval $(thefuck --alias the)
 
+# this in part redefines where `python` is
+GOPATH=$HOME/wk
+GOROOT=$HOME/sdk/go1.13.6
+PATH="$GOROOT/bin:$GOPATH/bin:/usr/local/opt/python/libexec/bin:/usr/local/sbin:$PATH"
+export PATH
+export GOPATH
+export GOROOT
+
 #end

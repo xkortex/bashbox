@@ -26,12 +26,21 @@ to () {
     if [[ ! -e "${1}" ]]; then
         errcho "File/dir does not exist: ${1}"
     fi
-
+    if [[ $OS_NAME == "linux" ]]; then
+      _FLAG="--color=tty"
+    elif [[ $OS_NAME == "darwin" ]]; then
+      _FLAG="-G"
+    else
+      _FLAG="--"
+    fi
     if [[ -d "${1}" ]]; then
         cd "${1}"
-        ls --color=tty
+        ls "${_FLAG}"
     else
         cd "$(dirname ${1})"
+        _NAME="$(basename ${1})"
+        ls "$(pwd)/${_NAME}"
+        ls -lah "${_NAME}"
     fi
 
 }
