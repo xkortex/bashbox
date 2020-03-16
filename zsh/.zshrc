@@ -107,6 +107,7 @@ fi
 
 ## virtualenvwrapper
 if [[ -e $HOME/.virtualenvs ]]; then
+    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
     export WORKON_HOME=$HOME/.virtualenvs
     export PROJECT_HOME=$HOME/wk/src/venvprojects
     source /usr/local/bin/virtualenvwrapper.sh
