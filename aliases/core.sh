@@ -11,6 +11,14 @@ alias reso="cat /etc/resolv.conf"
 alias rs="readlink -f"
 alias wat="hostname && id -un"
 
+if [[ $OS_NAME == "linux" ]]; then
+      alias _color_ls="ls --color=tty"
+    elif [[ $OS_NAME == "darwin" ]]; then
+      alias _color_ls="ls -G"
+    else
+      alias _color_ls="ls"
+fi
+
 errcho() {
     (>&2 echo -e "\e[31m$1\e[0m")
 }
@@ -23,26 +31,22 @@ vprint2() {
 }
 
 to () {
-    if [[ ! -e "${1}" ]]; then
-        errcho "File/dir does not exist: ${1}"
-    fi
-    if [[ $OS_NAME == "linux" ]]; then
-      _FLAG="--color=tty"
-    elif [[ $OS_NAME == "darwin" ]]; then
-      _FLAG="-G"
-    else
-      _FLAG="--"
-    fi
-    if [[ -d "${1}" ]]; then
-        cd "${1}"
-        ls "${_FLAG}"
-    else
-        cd "$(dirname ${1})"
+    if [ "${#}" -eq 0 ]; then
+      fzf
+    elif [ "${#}" -eq 1 ] && [ "${1}" = '-' ]; then               # last dir
+      z '-'
+    elif [[ -e "${1}" && ! -d "${1}" ]]; then                      # pointing to a file-like
+      errcho "file-like"
+      z "$(dirname ${1})"
         _NAME="$(basename ${1})"
-        ls "$(pwd)/${_NAME}"
-        ls -lah "${_NAME}"
-    fi
+        _color_ls "$(pwd)/${_NAME}"
+        _color_ls -lah "${_NAME}"
 
+    else
+        z "${@}"
+        echo -e "\e[34m$(pwd)\e[0m"
+        _color_ls
+    fi
 }
 
 f () {

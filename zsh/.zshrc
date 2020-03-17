@@ -123,6 +123,8 @@ fi
 
 #eval $(thefuck --alias)
 #eval $(thefuck --alias the)
+# activate zoxide
+eval "$(zoxide init zsh)"
 
 # this in part redefines where `python` is
 GOPATH=$HOME/wk
