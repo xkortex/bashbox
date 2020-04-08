@@ -8,5 +8,7 @@ XDG_DATA_HOME="${XDG_DATA_HOME:=$HOME/.local/share}"
 # == === ==         end XDG              == === ==
 export BASHBOX="${XDG_CONFIG_HOME}/bashbox"
 
+export OS_NAME=$(uname -s | tr '[:upper:]' '[:lower:]')
+
 # Initialize path variables so everything knows where to go
 . ${BASHBOX}/zsh/.zshenv

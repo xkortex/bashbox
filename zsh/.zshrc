@@ -107,8 +107,8 @@ fi
 
 ## virtualenvwrapper
 if [[ -e $HOME/.virtualenvs ]]; then
-    export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-    export WORKON_HOME=$HOME/.venvs
+    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+    export WORKON_HOME=$HOME/.virtualenvs
     export PROJECT_HOME=$HOME/wk/src/venvprojects
     source /usr/local/bin/virtualenvwrapper.sh
 fi
@@ -123,5 +123,15 @@ fi
 
 #eval $(thefuck --alias)
 #eval $(thefuck --alias the)
+# activate zoxide
+eval "$(zoxide init zsh)"
+
+# this in part redefines where `python` is
+GOPATH=$HOME/wk
+GOROOT=$HOME/sdk/go1.13.6
+PATH="$GOROOT/bin:$GOPATH/bin:/usr/local/opt/python/libexec/bin:/usr/local/sbin:$PATH"
+export PATH
+export GOPATH
+export GOROOT
 
 #end
