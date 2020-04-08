@@ -46,52 +46,68 @@ dstat() {
 }
 
 dg() {
-# docker grep for name
-    if [[ ${1:0:1} == "-" ]] ; then
-        _ALL=
-        FLAG=
-        VERBOSE=
-        ERR_QUIET=
-        _ARG="${2}"
-        if [[ "${1}" == *"v"* ]]; then
-           _printfyel "Verbose\n"
+  # docker regexp by name, return ID
+  # This is primarly used to grab a single docker ID to operate on
+  # pass any arguments after '--' directly to `docker ps`
+
+  ARGS=( "$@" )
+  LOCAL=()
+  TO_PASS=()
+  TRIPPED=
+  TARGET=
+  VERBOSE=
+  DG_EXCLUSIVE=
+  FILTER_FIELD="name"
+  i=0
+  for arg in "${ARGS[@]}"; do
+    i=$((i+1))
+    if [[ "$arg" == "--" ]]; then
+      TRIPPED=true
+      continue
+    fi
+
+    if [[ -z "$TRIPPED" ]]; then
+      LOCAL+=("${ARGS[i]}")
+    else
+      TO_PASS+=("${ARGS[i]}")
+    fi
+  done
+
+  for arg in "${LOCAL[@]}"; do
+    if [[ ${arg:0:1} != "-" ]] ; then
+      TARGET="${arg}" # assign the target if it isn't a flag
+      continue
+    fi
+
+    if [[ "${arg:1:1}" == "v" ]]; then
            VERBOSE=true
-        fi
-        if [[ "${1}" == *"a"* ]]; then
-            _ALL="-a"
-        fi
-        if [[ "${1}" == *"q"* ]]; then
-            ERR_QUIET=true
-        fi
-    else
-        _ARG="${1}"
+    elif [[ "${arg:1:1}" == "1" ]]; then
+           DG_EXCLUSIVE=true # fail if more than one container matches
+    elif [[ "${arg:1:1}" == "a" ]]; then
+           FILTER_FIELD="ancestor" # match ancestor (image name or descendant)
     fi
-    if [[ -n ${_ALL} ]]; then
-        IMG_LIST=$(docker ps -a)
-    else
-        IMG_LIST=$(docker ps)
-    fi
-    if [[ -n ${IMG_LIST} ]]; then
-        vprint2 "${IMG_LIST}"
-        IMG_LIST=$(echo ${IMG_LIST} | grep ${_ARG})
-    fi
+
+  done
+
+  if [[ -n ${VERBOSE} ]]; then
+      FULL_IMG_LIST=$(docker ps --filter "${FILTER_FIELD}=${TARGET}" "${TO_PASS[@]}")
+      (>&2 echo -e "\e[33m${FULL_IMG_LIST}\e[0m")
+  fi
+
+  IMG_LIST=$(docker ps --format "{{.ID}}" --filter "name=$TARGET" "${TO_PASS[@]}")
+
 
     if [[ -z ${IMG_LIST} ]]; then
-        errcho "No image names match grep "
+        errcho "No image names match pattern "
+        return 1
     elif [[ $(echo ${IMG_LIST}  | wc -l) != '1' ]]; then
         errcho "Warning: More than one image matches, ambiguous"
-        if [[ -n ${DG_SAFE} ]]; then
+        if [[ -n ${DG_EXCLUSIVE} ]]; then
             return 1
         fi
-        DOIT=true
-    else
-        DOIT=true
-
     fi
 
-    if [[ -n $DOIT ]]; then
-        echo ${IMG_LIST} | awk '{ print $1 }'
-    fi
+    echo ${IMG_LIST}
 }
 
 dn() {
@@ -115,7 +131,7 @@ dlc() {
 
 dosh() {
     _ARG="${1}"
-    NAME=$(dg ${_ARG})
+    NAME=$(dg -1 ${_ARG})
     if [[ -z ${NAME} ]]; then
         ALL_IMGS=$(dg -aq ${_ARG})
         if [[ -n ${ALL_IMGS} ]]; then
@@ -160,4 +176,35 @@ dlastsh() {
     docker commit ${LAST_ID} ${TMP_NAME}
     echo ">>> docker run -ti --rm $@ ${TMP_NAME} ${DCMD}"
     docker run -ti --rm --network=host $@ ${TMP_NAME} ${DCMD}
+}
+
+dcleanup(){
+    docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
+    docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
+}
+
+dretag(){
+  # $1 is initial URI, $2 is new tag
+  if [[ -z "${1}" || -z "${2}" ]]; then
+    echo "must provide url and tag arguments"
+    return
+  fi
+
+  NEWTAG=`python -c "print('${1}'.split(':')[0]+':${2}')"`
+  echo "\`docker tag ${1} ${NEWTAG}\`";
+  echo " > Tag and push the following tag?"
+  echo "${NEWTAG}"
+  read yn
+    case $yn in
+        [Yy]* )  docker tag "${1}" "${NEWTAG}" ;;
+        [Nn]* ) return;;
+        * ) echo "Aborted" ;;
+    esac
+  echo "\`docker push ${NEWTAG}\`";
+  echo " > Do you wish to push this tag to remote?"
+  read yn
+    case $yn in
+        [Yy]* )  docker push "${NEWTAG}" ;;
+        * ) echo "Aborted";;
+    esac
 }
