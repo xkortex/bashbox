@@ -31,12 +31,12 @@ vprint2() {
 }
 
 to () {
-    if [ "${#}" -eq 0 ]; then
-      fzf
+    if [ "${#}" -eq 0 ]; then # no arguments, boot up fzf, jump to that result
+      to "$(fzf)"
     elif [ "${#}" -eq 1 ] && [ "${1}" = '-' ]; then               # last dir
       z '-'
     elif [[ -e "${1}" && ! -d "${1}" ]]; then                      # pointing to a file-like
-      errcho "file-like"
+#      errcho "file-like"
       z "$(dirname ${1})"
         _NAME="$(basename ${1})"
         _color_ls "$(pwd)/${_NAME}"
@@ -44,7 +44,7 @@ to () {
 
     else
         z "${@}"
-        echo -e "\e[34m$(pwd)\e[0m"
+        echo -e "\e[36m$(pwd)\e[0m"
         _color_ls
     fi
 }
