@@ -102,7 +102,7 @@ export LC_TIME=en_GB.UTF-8
 if [[ -e $ZSH/custom/plugins/zsh-histdb/ ]]; then
     source $ZSH/custom/plugins/zsh-histdb/sqlite-history.zsh
     autoload -Uz add-zsh-hook
-    add-zsh-hook precmd histdb-update-outcome
+#    add-zsh-hook precmd histdb-update-outcome # not needed in later versions
 fi
 
 ## virtualenvwrapper

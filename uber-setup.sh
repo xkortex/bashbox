@@ -8,6 +8,7 @@ echo "Installing BASHBOX"
 # === === === === === === === flags === === === === === === === ===
 for arg in "$@" ; do
     if [[ "${arg}" == "-u" || "${arg}" == "--user" ]] ; then USERMODE=true ; fi
+    if [[ "${arg}" == "-i" || "${arg}" == "--install" ]] ; then INSTALL_PACKAGES=true ; fi
 
 done
 
@@ -35,14 +36,18 @@ if [[ -n $(cat /proc/1/cgroup | grep docker) ]]; then
 fi
 
 if [[ -n ${IN_CONTAINER} ]]; then
+  if [[ -n ${INSTALL_PACKAGES} ]]; then
     apt-get update -qq && apt-get install -y sudo
+  fi
 fi
 
 # === === === === === === === install stuff === === === === === === === ===
 
 # install zsh, sqlite for histdb
 if [[ -z ${USERMODE} ]]; then
-    sudo apt-get install -y zsh git sqlite3
+    if [[ -n ${INSTALL_PACKAGES} ]]; then
+      sudo apt-get install -y zsh git sqlite3
+    fi
 fi
 
 # pull down this repo
@@ -105,7 +110,7 @@ ln -sf ${BASHBOX}/aliases/aliases.sh ${HOME}/.zsh_aliases
 
 
 # === === === === === === === Cleanup === === === === === === === ===
-if [[ -n ${IN_CONTAINER} ]]; then
+if [[ -n ${IN_CONTAINER} ]] && [[ -n ${INSTALL_PACKAGES} ]]; then
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 fi
