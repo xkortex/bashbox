@@ -10,9 +10,31 @@ alias grp="git rev-parse --short HEAD"
 alias pls="git pull"
 alias plsub="git pull --recurse-submodules && git submodule update --init --recursive"
 
+ghsh() {
+  local GITDESC=$(git describe --dirty --always --tags)
+  local SHASUM=
+  if [[ "${GITDESC}" == *"dirty"* ]]; then
+    SHASUM=$(git diff | shasum | cut -c 1-7)
+  fi
+  echo "${GITDESC} ${SHASUM}"
+}
+
+
+git_remote_uri() {
+  REM_PUSH=$(git remote -v | grep -P -o -e "(^${1})(.+)(?=\s\(push\))")
+  echo "${REM_PUSH}" | awk '{print $2}'
+}
+# handy oneliner
+#  REM_PUSH=$(git remote -v | grep -P -o -e '(?<=^athena\sathena\:)(?P<uri>.+)(?=\s\(push\))')
+
+git_remote_path() {
+  URI=$(git_remote_uri "${1}")
+  echo "${URI}"| grep -P -o '(?<=\:)(.+)'
+}
+
 git_extract_patch() {
   __HERE__="Extracts file/path '$1' and generates patch (probably should redirect to a file). https://stackoverflow.com/a/11426261"
-  git log --pretty=email --patch-with-stat --reverse -- "${1}"
+  git log --pretty=email --patch-with-stat --reverse -- "${@}"
 }
 
 git_apply_patch() {
@@ -22,6 +44,8 @@ git_apply_patch() {
 
 git_sync() {
   __HERE__="Sync a remote repository's state to the current repo's state. CAVEAT: Only works in repo root and only if the directory structure matches!"
-  git branch --show-current | ssh "${1}" "cd $(pwd) ; cat - | xargs git checkout" # may need to be git reset --hard
-  git diff | ssh "${1}" "cd $(pwd) ; cat - | git apply"
+  BRANCH=$(git branch --show-current)
+  URI=$(git_remote_path "${1}")
+  ssh "${1}" "cd ${URI} ; git checkout ${BRANCH} ; git reset --hard ${BRANCH}" # may need to be git reset --hard
+  git diff | ssh "${1}" "cd ${URI} ; cat - | git apply"
 }

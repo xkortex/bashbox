@@ -2,6 +2,14 @@
 
 # This file is for super-transportable aliases, also useful for sh.
 
+# we need Proper Grep everywhere (aka gnu grep) so we have to first monkeypatch mac's grep
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  NEWGREP=g"$(type grep | sed 's/grep is an alias for //')"
+  unalias grep
+  alias grep="$NEWGREP"
+fi
+
+
 alias ..="cd .."
 alias e="echo"
 alias h="history -i | grep -Pv '^ *[0-9]+  [[:digit:]\:\- ]{16}  h '| grep "
