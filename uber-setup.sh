@@ -42,7 +42,7 @@ fi
 
 # install zsh, sqlite for histdb
 if [[ -z ${USERMODE} ]]; then
-    sudo apt-get install -y zsh git sqlite3
+    sudo apt-get install -y zsh git sqlite3 bsdmainutils
 fi
 
 # pull down this repo
