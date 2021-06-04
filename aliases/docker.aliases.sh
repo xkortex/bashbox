@@ -2,7 +2,6 @@
 
 alias d="docker"
 alias doc="docker-compose"
-alias dps="docker-pretty-ps 2>/dev/null || docker ps"
 alias dna="docker network ls"
 alias updoc="docker-compose up -d"
 alias docd="docker-compose down"
@@ -35,6 +34,16 @@ isint() {
     if  [[ $1 =~ $re ]] ; then
        echo "true"
     fi
+}
+
+dlps() {
+  docker ps --format '{{.ID}}\t{{.Status | printf "%-12s" }} {{.Names | printf "%-36s" }} {{.Image| printf "%s"}}'
+}
+
+
+dps() {
+  docker-pretty-ps 2>/dev/null || dlps
+
 }
 
 in_container() {

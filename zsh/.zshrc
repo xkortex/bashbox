@@ -124,11 +124,12 @@ fi
 #eval $(thefuck --alias)
 #eval $(thefuck --alias the)
 # activate zoxide
+_ZO_MAXAGE=100000 # default 10000
 eval "$(zoxide init zsh)"
 
 # this in part redefines where `python` is
 GOPATH=$HOME/wk
-GOROOT=$HOME/sdk/go1.13.6
+GOROOT=/usr/local/go
 PATH="$GOROOT/bin:$GOPATH/bin:/usr/local/opt/python/libexec/bin:/usr/local/sbin:$PATH"
 export PATH
 export GOPATH

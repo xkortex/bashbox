@@ -1,0 +1,20 @@
+import sys
+from loguru import logger
+
+logger.trace("basic trace")
+logger.info("basic info")
+logger.success("basic success")
+logger.warning("basic warning")
+logger.remove()
+logger.info("invisible")
+errlog = logger.add(sys.stderr, level='TRACE')
+logger.trace("errlog trace: {}".format(errlog))
+logger.debug("errlog debug: {}".format(errlog))
+logger.info("errlog info: {}".format(errlog))
+logger.success("errlog success: {}".format(errlog))
+logger.warning("errlog warning: {}".format(errlog))
+logger.error("errlog error: {}".format(errlog))
+logger.critical("errlog critical: {}".format(errlog))
+# tracelog = logger.add(sys.stderr, level='TRACE')
+# logger.error("tracelog error: {}".format(tracelog))
+# logger.trace("tracelog trace: {}".format(tracelog))

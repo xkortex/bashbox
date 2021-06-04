@@ -20,3 +20,4 @@ export PATH
 export XDG_DATA_HOME
 export XDG_CONFIG_HOME
 
+if [ -e /Users/mike/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/mike/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
