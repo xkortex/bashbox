@@ -1,5 +1,7 @@
 #!/bin/bash
 
+UNTRACKED_FILES=${UNTRACKED_FILES}
+
 for dir in $(fd -IH -td '.git' .)
 do
     dir=$(dirname $dir)
@@ -9,8 +11,10 @@ do
 
     STATE=""
 
-    if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
-        STATE="untracked-files ${STATE}"
+	if [[ -n ${UNTRACKED_FILES} ]]; then 
+    	if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
+        	STATE="untracked-files ${STATE}"
+        fi
     fi
 
     if ! git diff --quiet 2> /dev/null; then
@@ -27,3 +31,6 @@ do
 
     cd - > /dev/null
 done
+if [[ -n $STATE ]]; then
+	exit 1
+fi
