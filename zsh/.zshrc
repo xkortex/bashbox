@@ -1,3 +1,14 @@
+# Fig pre block. Keep at the top of this file.
+export PATH="${PATH}:${HOME}/.local/bin"
+eval "$(fig init zsh pre)"
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.local/share/zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 #!/usr/bin/env bash
 #echo -e "\e[32mDEBUG: zshrc\e[0m"
 # == === == .zshrc powered by xkortex/bashbox ! == === ==
@@ -27,7 +38,7 @@ export TERM=xterm-256color
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -106,11 +117,11 @@ if [[ -e $ZSH/custom/plugins/zsh-histdb/ ]]; then
 fi
 
 ## virtualenvwrapper
-if [[ -e $HOME/.virtualenvs ]]; then
-    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+if [[ -e $HOME/.local/pipx/venvs/virtualenvwrapper/bin/python ]]; then
+    export VIRTUALENVWRAPPER_PYTHON=$HOME/.local/pipx/venvs/virtualenvwrapper/bin/python
     export WORKON_HOME=$HOME/.virtualenvs
-    export PROJECT_HOME=$HOME/wk/src/venvprojects
-    source /usr/local/bin/virtualenvwrapper.sh
+    export PROJECT_HOME=$HOME/.local/venvprojects
+    source $HOME/.local/pipx/venvs/virtualenvwrapper/bin/virtualenvwrapper.sh
 fi
 
 ## custom plugins
@@ -127,11 +138,45 @@ fi
 eval "$(zoxide init zsh)"
 
 # this in part redefines where `python` is
-GOPATH=$HOME/wk
-GOROOT=$HOME/sdk/go1.13.6
 PATH="$GOROOT/bin:$GOPATH/bin:/usr/local/opt/python/libexec/bin:/usr/local/sbin:$PATH"
 export PATH
 export GOPATH
 export GOROOT
 
+# Custom flags and stuff for projects
+export MODEL_CACHE=$HOME/.cache/containers/
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source ~/.iterm2_shell_integration.zsh
+
+
+# To customize prompt, run `p10k configure` or edit ~/.local/share/zsh/.p10k.zsh.
+[[ ! -f ~/.local/share/zsh/.p10k.zsh ]] || source ~/.local/share/zsh/.p10k.zsh
+
 #end
+
+
+
+
+
+
+
+# >>> conda initialize >>>
+## !! Contents within this block are managed by 'conda init' !!
+#__conda_setup="$('/Users/mike/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+#else
+#    if [ -f "/Users/mike/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+#        . "/Users/mike/opt/anaconda3/etc/profile.d/conda.sh"
+#    else
+#        export PATH="/Users/mike/opt/anaconda3/bin:$PATH"
+#    fi
+#fi
+#unset __conda_setup
+# <<< conda initialize <<<
+
+# Fig post block. Keep at the bottom of this file.
+eval "$(fig init zsh post)"
+

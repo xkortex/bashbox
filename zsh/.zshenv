@@ -20,3 +20,4 @@ export PATH
 export XDG_DATA_HOME
 export XDG_CONFIG_HOME
 
+. "$HOME/.cargo/env"

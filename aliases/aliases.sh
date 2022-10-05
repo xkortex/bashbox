@@ -8,3 +8,7 @@
 . ${BASHBOX}/aliases/docker.aliases.sh
 . ${BASHBOX}/aliases/git.aliases.sh
 . ${BASHBOX}/aliases/misc.aliases.sh
+
+if [[ "$(uname)" == "Darwin" ]]; then
+  . ${BASHBOX}/aliases/osx.aliases.sh
+fi
