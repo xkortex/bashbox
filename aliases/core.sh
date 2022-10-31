@@ -23,6 +23,11 @@ errcho() {
     (>&2 echo -e "\e[31m$1\e[0m")
 }
 
+warn_command_not_found() {
+    (>&2 echo -e "\e[33m$2: warning: $1 not found \e[0m")
+}
+
+
 vprint2() {
 # Verbose print on stderr
     if [[ -n ${VERBOSE} ]]; then
