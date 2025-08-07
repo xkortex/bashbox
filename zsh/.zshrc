@@ -1,6 +1,7 @@
 # Fig pre block. Keep at the top of this file.
 export PATH="${PATH}:${HOME}/.local/bin"
-eval "$(fig init zsh pre)"
+#eval "$(fig init zsh pre)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.local/share/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -32,6 +33,8 @@ export SAVEHIST=10000
 # allow proper terminal colors
 export TERM=xterm-256color
 
+# make docker on this mac use amd64 for pulling images
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 
 # Set name of the theme to load.
@@ -86,8 +89,9 @@ plugins=(git zsh-autosuggestions docker docker-compose)
 # User configuration
 
 ## go and rust
+DOCKER_PATH=/Applications/Docker.app/Contents/Resources/bin/
 export GOPATH=$HOME/ao
-export PATH=${PATH:+${PATH}:}/usr/local/go/bin:$HOME/.cargo/bin
+export PATH=${PATH:+${PATH}:}/usr/local/go/bin:$HOME/.cargo/bin:$DOCKER_PATH
 
 export TRASHPATH="/home/$USER/.local/share/Trash/files"
 
@@ -124,9 +128,9 @@ if [[ -e $HOME/.local/pipx/venvs/virtualenvwrapper/bin/python ]]; then
     source $HOME/.local/pipx/venvs/virtualenvwrapper/bin/virtualenvwrapper.sh
 fi
 
-## custom plugins
-# todo: make this an import
-[[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
+# NVM
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm 
 
 # Load all custom aliases
 
@@ -148,15 +152,16 @@ export MODEL_CACHE=$HOME/.cache/containers/
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source ~/.iterm2_shell_integration.zsh
 
 
 # To customize prompt, run `p10k configure` or edit ~/.local/share/zsh/.p10k.zsh.
 [[ ! -f ~/.local/share/zsh/.p10k.zsh ]] || source ~/.local/share/zsh/.p10k.zsh
-
 #end
 
-
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 
 
@@ -178,5 +183,14 @@ source ~/.iterm2_shell_integration.zsh
 # <<< conda initialize <<<
 
 # Fig post block. Keep at the bottom of this file.
-eval "$(fig init zsh post)"
+#eval "$(fig init zsh post)"
 
+
+test -e "${ZDOTDIR}/.iterm2_shell_integration.zsh" && source "${ZDOTDIR}/.iterm2_shell_integration.zsh" || true
+
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh --disable-up-arrow)"
+
+# the end. keep this below any auto-added invocations
