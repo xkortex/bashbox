@@ -2,7 +2,9 @@
 
 alias d="docker"
 alias doc="docker-compose"
-alias dps="docker-pretty-ps 2>/dev/null || docker ps"
+alias dpps="docker-pretty-ps 2>/dev/null || docker ps"
+alias dps='docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Ports}}"'
+alias dpsa='docker ps -a --format "table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Ports}}"'
 alias dna="docker network ls"
 alias updoc="docker-compose up -d"
 alias docd="docker-compose down"
