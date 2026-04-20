@@ -98,6 +98,7 @@ export TRASHPATH="/home/$USER/.local/share/Trash/files"
 
 # plugins and stuff
 source $ZSH/oh-my-zsh.sh
+source $BASHBOX/bin/awsuse.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -161,7 +162,8 @@ export MODEL_CACHE=$HOME/.cache/containers/
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# disable pyenv to let uv work
+# eval "$(pyenv init -)"
 
 
 
@@ -194,3 +196,5 @@ test -e "${ZDOTDIR}/.iterm2_shell_integration.zsh" && source "${ZDOTDIR}/.iterm2
 eval "$(atuin init zsh --disable-up-arrow)"
 
 # the end. keep this below any auto-added invocations
+
+. "$HOME/.local/share/../bin/env"
