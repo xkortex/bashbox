@@ -195,6 +195,10 @@ test -e "${ZDOTDIR}/.iterm2_shell_integration.zsh" && source "${ZDOTDIR}/.iterm2
 
 eval "$(atuin init zsh --disable-up-arrow)"
 
+# security find-certificate -a -p /Library/Keychains/System.keychain > ~/certs/system-certs.pem
+# workaround for claude code and buspatrol zscaler
+export NODE_EXTRA_CA_CERTS="$HOME/certs/system-certs.pem"
+
 # the end. keep this below any auto-added invocations
 
 . "$HOME/.local/share/../bin/env"
